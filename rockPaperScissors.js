@@ -32,4 +32,25 @@ function getHumanChoice() {
     }
 }
 
-console.log(getHumanChoice());
+function playRound(humanChoice, computerChoice) {
+    result = (choices.indexOf(humanChoice) - choices.indexOf(computerChoice))%3;
+    switch (result) {
+        case 1:
+            console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+            break;
+        case 0:
+            console.log(`Tie! You both chose ${humanChoice}.`);
+            break;
+        case -1:
+            console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
+            break;
+        default:
+            console.log("lmao error");
+    }
+}
+
+choices = ["rock", "paper", "scissors"];
+let humanScore = 0;
+let computerScore = 0;
+
+playRound("scissors", "paper");
