@@ -32,25 +32,99 @@ function getHumanChoice() {
     }
 }
 
-function playRound(humanChoice, computerChoice) {
-    result = (choices.indexOf(humanChoice) - choices.indexOf(computerChoice))%3;
-    switch (result) {
-        case 1:
-            console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
-            break;
-        case 0:
-            console.log(`Tie! You both chose ${humanChoice}.`);
-            break;
-        case -1:
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
-            break;
-        default:
-            console.log("lmao error");
+
+
+
+
+function playGame() {
+    choices = ["rock", "paper", "scissors"];
+    let humanScore = 0;
+    let computerScore = 0;
+
+    function playRound(humanChoice, computerChoice) {
+
+        let value;
+        switch (humanChoice) {
+            case "rock":
+                switch (computerChoice) {
+                    case "rock":
+                        value=0;
+                        break;
+                    case "paper":
+                        value=-1;
+                        break;
+                    case "scissors":
+                        value=1;
+                        break;                       
+                }
+                break;
+            case "paper":
+                switch (computerChoice) {
+                    case "rock":
+                        value=1;
+                        break;
+                    case "paper":
+                        value=0;
+                        break;  
+                    case "scissors":
+                        value=-1;
+                        break;                     
+                }
+                break;
+            case "scissors":
+                switch (computerChoice) {
+                    case "rock":
+                        value=-1;
+                        break;
+                    case "paper":
+                        value=1;
+                        break;  
+                    case "scissors":
+                        value=0;
+                        break;                     
+                }
+                break;
+        }
+
+        switch (value) {
+            case 1:
+                console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+                humanScore++;
+                break;
+            case 0:
+                console.log(`Tie! You both chose ${humanChoice}.`);
+                break;
+            case -1:
+                console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
+                computerScore++;
+                break;
+            default:
+                console.log("lmao error");
+        }
+    }
+
+    let humanChoice;
+    let computerChoice;
+    for (let i=0; i < 5; i++) {
+        console.log(`Round ${i+1}`);
+        computerChoice = getComputerChoice();
+        humanChoice = getHumanChoice();
+        playRound(humanChoice, computerChoice);
+    }
+    
+    console.log("Final results: ");
+    console.log(`Player: ${humanScore} rounds`);
+    console.log(`Skynet: ${computerScore} rounds`);
+    if (humanScore > computerScore) {
+        console.log("You win. Probably cheated though.");
+    } else if (computerScore > humanScore) {
+        console.log("Skynet wins, obviously.");
+        console.log("Loser");
+    } else {
+        console.log("It's a tie.");
+        console.log("You're still a loser though.");
     }
 }
 
-choices = ["rock", "paper", "scissors"];
-let humanScore = 0;
-let computerScore = 0;
+playGame();
 
-playRound("scissors", "paper");
