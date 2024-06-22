@@ -44,6 +44,15 @@ function playGame() {
     const results = document.querySelector("#results-div");
     results.textContent = "";
 
+    const scoreBoard = document.createElement("div");
+    document.querySelector("body").appendChild(scoreBoard);
+    const humanTally = document.createElement("p");
+    const computerTally = document.createElement("p");
+    scoreBoard.appendChild(humanTally);
+    scoreBoard.appendChild(computerTally);
+
+    const finalMessage = document.createElement("div");
+
     function playRound(humanChoice, computerChoice) {
 
         let value;
@@ -107,28 +116,30 @@ function playGame() {
     }
 
     function gameOver() { 
-        results.textContent += "Final results: ";
-        results.textContent +=`Player: ${humanScore} rounds`;
-        results.textContent +=`Skynet: ${computerScore} rounds`;
+        finalMessage.textContent = "Final results: ";
         if (humanScore > computerScore) {
-            results.textContent += "You win." 
-            results.textContent += "Probably cheated though.";
+            finalMessage.textContent += "You win. " 
+            finalMessage.textContent += "Probably cheated though.";
         } else if (computerScore > humanScore) {
-            results.textContent += "Skynet wins, obviously.";
-            results.textContent += "Loser";
+            finalMessage.textContent += "Skynet wins, obviously. ";
+            finalMessage.textContent += "Loser";
         } else {
-            results.textContent += "It's a tie.";
-            results.textContent += "You're still a loser though.";
-    }
+            finalMessage.textContent += "It's a tie. ";
+            finalMessage.textContent += "You're still a loser though.";
+        }
+        document.querySelector("body").appendChild(finalMessage);
     }
     
 
     const buttons = document.querySelectorAll("button");
     buttons.forEach(button => button.addEventListener("click", () => {
-        const humanChoice = button.value;
-        const computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
-        if (humanScore >= 5 || computerScore >= 5) {
+        if (humanScore < 5 && computerScore < 5) {
+            const humanChoice = button.value;
+            const computerChoice = getComputerChoice();
+            playRound(humanChoice, computerChoice);
+            humanTally.textContent = `Human: ${humanScore} rounds`;
+            computerTally.textContent =`Skynet: ${computerScore} rounds`;
+        } else {
             gameOver();
         }
     }));
