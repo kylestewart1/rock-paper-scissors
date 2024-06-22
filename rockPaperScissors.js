@@ -41,6 +41,9 @@ function playGame() {
     let humanScore = 0;
     let computerScore = 0;
 
+    const results = document.querySelector("#results-div");
+    results.textContent = "";
+
     function playRound(humanChoice, computerChoice) {
 
         let value;
@@ -88,42 +91,51 @@ function playGame() {
 
         switch (value) {
             case 1:
-                console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+                results.textContent=`You win! ${humanChoice} beats ${computerChoice}.`;
                 humanScore++;
                 break;
             case 0:
-                console.log(`Tie! You both chose ${humanChoice}.`);
+                results.textContent=`Tie! You both chose ${humanChoice}.`;
                 break;
             case -1:
-                console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
+                results.textContent=`You lose! ${computerChoice} beats ${humanChoice}.`;
                 computerScore++;
                 break;
             default:
-                console.log("lmao error");
+                results.textContent="lmao error";
         }
     }
 
-    let humanChoice;
-    let computerChoice;
-    for (let i=0; i < 5; i++) {
-        console.log(`Round ${i+1}`);
-        computerChoice = getComputerChoice();
-        humanChoice = getHumanChoice();
-        playRound(humanChoice, computerChoice);
+    function gameOver() { 
+        results.textContent += "Final results: ";
+        results.textContent +=`Player: ${humanScore} rounds`;
+        results.textContent +=`Skynet: ${computerScore} rounds`;
+        if (humanScore > computerScore) {
+            results.textContent += "You win." 
+            results.textContent += "Probably cheated though.";
+        } else if (computerScore > humanScore) {
+            results.textContent += "Skynet wins, obviously.";
+            results.textContent += "Loser";
+        } else {
+            results.textContent += "It's a tie.";
+            results.textContent += "You're still a loser though.";
+    }
     }
     
-    console.log("Final results: ");
-    console.log(`Player: ${humanScore} rounds`);
-    console.log(`Skynet: ${computerScore} rounds`);
-    if (humanScore > computerScore) {
-        console.log("You win. Probably cheated though.");
-    } else if (computerScore > humanScore) {
-        console.log("Skynet wins, obviously.");
-        console.log("Loser");
-    } else {
-        console.log("It's a tie.");
-        console.log("You're still a loser though.");
-    }
+
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button => button.addEventListener("click", () => {
+        const humanChoice = button.value;
+        const computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice);
+        if (humanScore >= 5 || computerScore >= 5) {
+            gameOver();
+        }
+    }));
+
+
+    
+    
 }
 
 playGame();
